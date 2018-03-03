@@ -179,4 +179,4 @@ client.on('ready', () => {
 
   });
 
-client.login('NDE5MzMzMzUzNjkxNDE0NTI4.DXvBng.u1kTelT6jXrfbmAA_qCRWYcJ1Vw');
+client.login(process.env.BOT_TOKEN);
