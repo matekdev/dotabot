@@ -37,7 +37,7 @@ function appendURL(url1, id, url2) {
 
 function helpcommand(input, message) {
     if (message.content.startsWith('!help')) {
-        message.channel.send('```Welcome to the dotabot created by Matthew Zegar. This bot gathers API data from "https://docs.opendota.com".\n \nCommands:\n!help - shows all commands \n!info <id> - displays info about the dota player \n!database - shows which names are present within the database \n!lastmatch <id> - displays info about the last match the user played \n!matches <id> - displays info about all the matches the user has played ```');
+        message.channel.send('```Welcome to the dotabot created by Matthew Zegar. This bot gathers API data from "https://docs.opendota.com".\n \nCommands:\n!help - shows all commands \n!info <id> - displays info about the dota player \n!database - shows which names are present within the database \n!lastmatch <id> - displays info about the last match the user played \n!matches <id> - displays info about all the matches the user has played\n!match <matchid> - shows information about the match ```');
     }
 }
 
@@ -135,7 +135,7 @@ function matchcommand(input, message, herodataJSON) {
             if (data.error == 'Internal Server Error' || typeof data.players == 'undefined') {
                 message.channel.send('Error, invalid ID');
             } else {
-                message.channel.send('```Match id: ' + data.match_id + '\nDuration: ' + Math.round(data.duration/60) + ' mins' + '\nRadiant win: ' + data.radiant_win + '\n\n```');
+                message.channel.send('```Match id: ' + data.match_id + '\nDuration: ' + Math.round(data.duration/60) + ' mins' + '\nWinner: ' + winner(data.radiant_win) + '\n\n```');
                 message.channel.send('``` RADIANT\n1:' + personnamevalid(0, data) + '\nH:' + heroid(data.players[0].hero_id, herodataJSON) + '\nK:' + data.players[0].kills + '\nD:' + data.players[0].deaths + '\nA:' + data.players[0].assists + '\nLH/D:' + data.players[0].last_hits + '/' + data.players[0].denies + '\nTWR:' + data.players[0].tower_damage + '\n\n2:' + personnamevalid(1, data) + '\nH:' + heroid(data.players[1].hero_id, herodataJSON) + '\nK:' + data.players[1].kills + '\nD:' + data.players[1].deaths + '\nA:' + data.players[1].assists + '\nLH/D:' + data.players[1].last_hits + '/' + data.players[1].denies + '\nTWR:' + data.players[1].tower_damage + '\n\n' + '3:' + personnamevalid(2, data) + '\nH:' + heroid(data.players[2].hero_id, herodataJSON) + '\nK:' + data.players[2].kills + '\nD:' + data.players[2].deaths + '\nA:' + data.players[2].assists + '\nLH/D:' + data.players[2].last_hits + '/' + data.players[2].denies + '\nTWR:' + data.players[2].tower_damage + '\n\n4:' + personnamevalid(3, data) + '\nH:' + heroid(data.players[3].hero_id, herodataJSON) + '\nK:' + data.players[3].kills + '\nD:' + data.players[3].deaths + '\nA:' + data.players[3].assists + '\nLH/D:' + data.players[3].last_hits + '/' + data.players[3].denies + '\nTWR:' + data.players[3].tower_damage + '\n\n' + '5:' + personnamevalid(4, data) + '\nH:' + heroid(data.players[4].hero_id, herodataJSON) + '\nK:' + data.players[4].kills + '\nD:' + data.players[4].deaths + '\nA:' + data.players[4].assists + '\nLH/D:' + data.players[4].last_hits + '/' + data.players[4].denies + '\nTWR:' + data.players[4].tower_damage + '\n\n' + '```');
                 message.channel.send('``` DIRE\n1:' + personnamevalid(5, data) + '\nH:' + heroid(data.players[5].hero_id, herodataJSON) + '\nK:' + data.players[5].kills + '\nD:' + data.players[5].deaths + '\nA:' + data.players[5].assists + '\nLH/D:' + data.players[5].last_hits + '/' + data.players[5].denies + '\nTWR:' + data.players[5].tower_damage + '\n\n2:' + personnamevalid(6, data) + '\nH:' + heroid(data.players[6].hero_id, herodataJSON) + '\nK:' + data.players[6].kills + '\nD:' + data.players[6].deaths + '\nA:' + data.players[6].assists + '\nLH/D:' + data.players[6].last_hits + '/' + data.players[6].denies + '\nTWR:' + data.players[6].tower_damage + '\n\n' + '3:' + personnamevalid(7, data) + '\nH:' + heroid(data.players[7].hero_id, herodataJSON) + '\nK:' + data.players[7].kills + '\nD:' + data.players[7].deaths + '\nA:' + data.players[7].assists + '\nLH/D:' + data.players[7].last_hits + '/' + data.players[7].denies + '\nTWR:' + data.players[7].tower_damage + '\n\n4:' + personnamevalid(8, data) + '\nH:' + heroid(data.players[8].hero_id, herodataJSON) + '\nK:' + data.players[8].kills + '\nD:' + data.players[8].deaths + '\nA:' + data.players[8].assists + '\nLH/D:' + data.players[8].last_hits + '/' + data.players[8].denies + '\nTWR:' + data.players[8].tower_damage + '\n\n' + '5:' + personnamevalid(9, data) + '\nH:' + heroid(data.players[9].hero_id, herodataJSON) + '\nK:' + data.players[9].kills + '\nD:' + data.players[9].deaths + '\nA:' + data.players[9].assists + '\nLH/D:' + data.players[9].last_hits + '/' + data.players[9].denies + '\nTWR:' + data.players[9].tower_damage + '\n\n' + '```');
             }
@@ -149,6 +149,14 @@ function heroid(id, herodataJSON) {
             return herodataJSON.heroes[i].localized_name;
         }
     }    
+}
+
+function winner(result) {
+    if (result == true) {
+        return 'Radiant';
+    } else {
+        return 'Dire';
+    }
 }
 
 
