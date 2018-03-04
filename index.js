@@ -193,7 +193,7 @@ function rankcalc(rank_tier) {
         result += 'Divine';
     }
 
-    for (i = 0; i < 5; ++i) {
+    for (i = 0; i < 6; ++i) {
         if (rank.charAt(1) == i) {
             result += ' ';
             result += i;
