@@ -104,7 +104,7 @@ function matchescommand(input, message) {
             if (typeof data.leaver_status[0] == 'undefined') {
                 message.channel.send('Error, invalid ID');
             } else {
-                message.channel.send('```Total matches completed: ' + data.leaver_status[0].games + '\nWins: ' + data.leaver_status[0].win + '\nLosses: ' + (data.leaver_status[0].games - data.leaver_status[0].win) + '\nWon %: ' + Math.round((data.leaver_status[0].win / data.leaver_status[0].games)*100) + '\nTotal abandons: ' + data.leaver_status[3].games + '```');
+                message.channel.send('```Total matches completed: ' + data.leaver_status[0].games + '\nWins: ' + data.leaver_status[0].win + '\nLosses: ' + (data.leaver_status[0].games - data.leaver_status[0].win) + '\nWon %: ' + Math.round((data.leaver_status[0].win / data.leaver_status[0].games)*100) +'```');
             }
         }); 
     }
@@ -164,6 +164,7 @@ function gamemode(game_mode) {
 
 client.on('ready', () => {
     console.log('dotabot loaded');
+    client.user.setActivity('DOTA 2');
   });
   
   client.on('message', message => {
