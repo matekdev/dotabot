@@ -10,7 +10,7 @@ var fs = require('fs');
 
 var herodataJSON;
 
-request('https://raw.githubusercontent.com/kronusme/dota2-api/master/data/heroes.json', function (error, response, body) {
+request('https://raw.githubusercontent.com/mzegar/dota2-api/e04b622288427ae6b41f63a0b2d4061eaf1784a1/data/heroes.json', function (error, response, body) {
     herodataJSON = JSON.parse(body);   
 });
 
@@ -144,7 +144,7 @@ function matchcommand(input, message, herodataJSON) {
 }
 
 function heroid(id, herodataJSON) {
-    for (i = 0; i < 112; ++i) {
+    for (i = 0; i < herodataJSON.heroes.length; ++i) {
         if (id == herodataJSON.heroes[i].id) {
             return herodataJSON.heroes[i].localized_name;
         }
@@ -233,6 +233,5 @@ client.on('ready', () => {
     matchcommand(input, message, herodataJSON);
 
   });
-
 
 client.login(process.env.BOT_TOKEN);
