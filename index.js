@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 var request = require('request');
 
-var info = ['NjYxOTQxNDc2NzcwNDg4MzI.DUg2sA.szQQxYoIeViB7xzBga-ZASGYEU', 'matt']
+var info = ['process.env.BOT_TOKEN', 'matt']
 var channel = client.channels.get('348698341242306560');
 
 var http = require('http');
