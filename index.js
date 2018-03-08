@@ -1,20 +1,18 @@
+// Include .JS files, setup discord.js settings
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var request = require('request');
-
-var info = ['process.env.BOT_TOKEN', 'matt']
 var channel = client.channels.get('348698341242306560');
 
-var http = require('http');
-var fs = require('fs');
-
+// Load in DOTA 2 hero champion data
 var herodataJSON;
-
 request('https://raw.githubusercontent.com/mzegar/dota2-api/e04b622288427ae6b41f63a0b2d4061eaf1784a1/data/heroes.json', function (error, response, body) {
     herodataJSON = JSON.parse(body);   
 });
 
-// LOCAL DATABASE
+// Local database due to Discord not supporting API to see who has connected steam accounts.
+// This allows it so commands can be used like... !lastmatch fogell
+// Instead of using their DOTA ID any custom string will work
 var database = [
     ['matt', '49604109'],
     ['fogell', '78019306'],
@@ -35,12 +33,14 @@ function appendURL(url1, id, url2) {
     return url1.concat(id, url2);
 }
 
+// Help command
 function helpcommand(input, message) {
     if (message.content.startsWith('!help')) {
-        message.channel.send('```Welcome to the dotabot created by Matthew Zegar. This bot gathers API data from "https://docs.opendota.com".\n \nCommands:\n!help - shows all commands \n!info <id> - displays info about the dota player \n!database - shows which names are present within the database \n!lastmatch <id> - displays info about the last match the user played \n!matches <id> - displays info about all the matches the user has played\n!match <matchid> - shows information about the match ```');
+        message.channel.send('```Welcome to the dotabot created by Matthew Zegar. This bot gathers API data from "https://docs.opendota.com".\n \nCommands:\n!help - shows all commands \n!info <id> - displays info about the dota player \n!database - shows which names are present within the database \n!lastmatch <id> - displays info about the last match the user played \n!matches <id> - displays info about all the matches the user has played\n!match <matchid> - shows information about the match \n!dotabuff - links to dotabuff ```');
     }
 }
 
+// Lists all of the users within the database
 function databasecommand(input, message) {
     if (message.content.startsWith('!database')) {
         for (i = 0; i < database.length; i++) {
@@ -49,12 +49,14 @@ function databasecommand(input, message) {
     }  
 }
 
+// Links dotabuff
 function dotabuff(input, message) {
     if (message.content.startsWith('!dotabuff')) {
         message.channel.send('https://www.dotabuff.com/');
     }     
 }
 
+// Not all users in the API have a name, anonymous will be returned with the DOTA API cannot find a name
 function personnamevalid(num, data) {
         if (typeof data.players[num].personaname == 'undefined') {
             return 'Anonymous';
@@ -63,6 +65,7 @@ function personnamevalid(num, data) {
         } 
 }
 
+// !info command
 function infocommand(input, message) {
     if (message.content.startsWith('!info ')) {
         let id = lookupid(input.substring(6, (input.length)));
@@ -80,6 +83,7 @@ function infocommand(input, message) {
     }
 }
 
+// !lastmatch command
 function lastmatchcommand(input, message) {
     if (message.content.startsWith('!lastmatch ')) {
         let id = lookupid(input.substring(11, (input.length)));
@@ -107,6 +111,7 @@ function lastmatchcommand(input, message) {
     }
 }
 
+// !matches command
 function matchescommand(input, message) {
     if (message.content.startsWith('!matches ')) {
         let id = lookupid(input.substring(9, (input.length)));
@@ -124,6 +129,7 @@ function matchescommand(input, message) {
     }
 }
 
+// !match command
 function matchcommand(input, message, herodataJSON) {
     if (message.content.startsWith('!match ')) {
         let id = lookupid(input.substring(7, (input.length)));
@@ -143,6 +149,7 @@ function matchcommand(input, message, herodataJSON) {
     }   
 }
 
+// Finds the proper hero_id
 function heroid(id, herodataJSON) {
     for (i = 0; i < herodataJSON.heroes.length; ++i) {
         if (id == herodataJSON.heroes[i].id) {
@@ -151,6 +158,7 @@ function heroid(id, herodataJSON) {
     }    
 }
 
+// Outputs the result of the match in a better format
 function winner(result) {
     if (result == true) {
         return 'Radiant';
@@ -159,7 +167,7 @@ function winner(result) {
     }
 }
 
-
+// Looks through the database for any matching names
 function lookupid(id) {
     for (i = 0; i < database.length; ++i) {
         if (id == database[i][0]) {
@@ -169,6 +177,7 @@ function lookupid(id) {
     return id;
 }
 
+// Calculates the ranks
 function rankcalc(rank_tier) {
     let rank = String(rank_tier);
     let result = '';
@@ -203,6 +212,7 @@ function rankcalc(rank_tier) {
     return result;
 }
 
+// Finds which gamemode
 function gamemode(game_mode) {
     if (game_mode == 4) {
         return 'Low-prio';
@@ -211,7 +221,7 @@ function gamemode(game_mode) {
     } else if (game_mode == 22) {
         return 'Normal';
     } else {
-        return 'nobody cares';
+        return 'Unknown';
     }
 }
 
