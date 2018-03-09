@@ -1,5 +1,5 @@
 # dotabot
-A discord bot that gathers API information using https://docs.opendota.com/ for the game Dota 2. The commands that can be used are...
+A discord bot that gathers API information using https://docs.opendota.com/ for the game Dota 2. The API data is in JSON format which feeds through the bot and then is neatly formatted to public discord servers. Here is a list of all the commands... 
 
 !help - shows all commands 
 
