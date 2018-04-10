@@ -245,4 +245,5 @@ client.on('ready', () => {
 
   });
 
+// Heroku login
 client.login(process.env.BOT_TOKEN);
