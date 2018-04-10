@@ -2,6 +2,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var request = require('request');
+// All channels within the discord
 var channel = client.channels.get('348698341242306560');
 
 // Load in DOTA 2 hero champion data
