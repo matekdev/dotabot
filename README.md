@@ -12,3 +12,8 @@ A discord bot that gathers API information using https://docs.opendota.com/ for 
 !matches {id} - displays info about all the matches the user has played 
 
 !match {matchid} - displays match information
+
+![alt text](https://raw.githubusercontent.com/mzegar/dotabot/master/examples%20of%20commanduse/!help.png)
+
+
+![alt text](https://raw.githubusercontent.com/mzegar/dotabot/master/examples%20of%20commanduse/!lastmatch.png)
