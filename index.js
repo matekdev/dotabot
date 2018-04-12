@@ -2,14 +2,11 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var request = require('request');
-// All channels within the discord
 var channel = client.channels.get('348698341242306560');
 
 // Load in DOTA 2 hero champion data
-var herodataJSON;
-request('https://raw.githubusercontent.com/mzegar/dota2-api/e04b622288427ae6b41f63a0b2d4061eaf1784a1/data/heroes.json', function (error, response, body) {
-    herodataJSON = JSON.parse(body);   
-});
+var herodataJSON = JSON.parse(herodata.json);
+
 
 // Local database due to Discord not supporting API to see who has connected steam accounts.
 // This allows it so commands can be used like... !lastmatch fogell
@@ -104,7 +101,7 @@ function lastmatchcommand(input, message) {
                         }
                     }
                     message.channel.send('https://www.dotabuff.com/matches/' + data[0].match_id);
-                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
+                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + '\nWinner: ' + winner(data[0].radiant_win) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
                 }); 
             }
         }); 
@@ -219,10 +216,8 @@ function gamemode(game_mode) {
         return 'Low-prio';
     } else if (game_mode == 23) {
         return 'Turbo'; 
-    } else if (game_mode == 22) {
-        return 'Normal';
     } else {
-        return 'Unknown';
+        return 'Normal';
     }
 }
 
@@ -245,5 +240,4 @@ client.on('ready', () => {
 
   });
 
-// Heroku login
 client.login(process.env.BOT_TOKEN);
