@@ -30,7 +30,6 @@ var database = [
     ['jimson', '34483138']
 ];
 
-
 function appendURL(url1, id, url2) {
     return url1.concat(id, url2);
 }
@@ -105,7 +104,7 @@ function lastmatchcommand(input, message) {
                         }
                     }
                     message.channel.send('https://www.dotabuff.com/matches/' + data[0].match_id);
-                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + '\nWinner: ' + winner(data[0].radiant_win) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
+                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + 'Won: ' + winnerlastmatch(data[0].radiant_win, data[0].player_slot) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
                 }); 
             }
         }); 
@@ -169,6 +168,24 @@ function winner(result) {
     }
 }
 
+function winnerlastmatch(result, playerslot) {
+    if ((playerslot >> 7) & 1) {
+        // radiant
+        if (winner(result) == 'Radiant') {
+            return 'Yes';
+        } else {
+            return 'No';
+        }
+    } else {
+        // dire
+        if (winner(result) == 'Dire') {
+            return 'Yes';
+        } else {
+            return 'No';
+        }
+    }
+}
+
 // Looks through the database for any matching names
 function lookupid(id) {
     for (i = 0; i < database.length; ++i) {
@@ -220,8 +237,10 @@ function gamemode(game_mode) {
         return 'Low-prio';
     } else if (game_mode == 23) {
         return 'Turbo'; 
-    } else {
+    } else if (game_mode == 22) {
         return 'Normal';
+    } else {
+        return 'Unknown';
     }
 }
 
@@ -244,4 +263,5 @@ client.on('ready', () => {
 
   });
 
+// Heroku login
 client.login(process.env.BOT_TOKEN);
