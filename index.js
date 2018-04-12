@@ -169,7 +169,7 @@ function winner(result) {
 }
 
 function winnerlastmatch(result, playerslot) {
-    if (((playerslot >> 7) & 1) === 1) {
+    if (((playerslot >> 7) & 1) === 0) {
         // Raidant 
         if (winner(result) == 'Radiant') {
             return 'Yes';
