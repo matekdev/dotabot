@@ -244,6 +244,8 @@ function gamemode(game_mode) {
         return 'Ranked All Pick'; 
     } else if (game_mode == 3) {
         return 'Random Draft';
+    } else if (game_mode == 23) {
+	return 'Turbo';
     } else if (game_mode == 4) {
         return 'Single Draft (Low prio)';
     } else if (game_mode == 5) {
