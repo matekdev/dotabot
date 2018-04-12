@@ -11,6 +11,7 @@ request('https://raw.githubusercontent.com/mzegar/dota2-api/e04b622288427ae6b41f
     herodataJSON = JSON.parse(body);   
 });
 
+
 // Local database due to Discord not supporting API to see who has connected steam accounts.
 // This allows it so commands can be used like... !lastmatch fogell
 // Instead of using their DOTA ID any custom string will work
@@ -104,7 +105,7 @@ function lastmatchcommand(input, message) {
                         }
                     }
                     message.channel.send('https://www.dotabuff.com/matches/' + data[0].match_id);
-                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + '\nResult: ' + winnerlastmatch(data[0].radiant_win, data[0].player_slot) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
+                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + '\nWon: ' + winnerlastmatch(data[0].radiant_win, data[0].player_slot) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
                 }); 
             }
         }); 
@@ -172,16 +173,16 @@ function winnerlastmatch(result, playerslot) {
     if (((playerslot >> 7) & 1) === 0) {
         // Raidant 
         if (winner(result) == 'Radiant') {
-            return 'Won';
+            return 'Yes';
         } else {
-            return 'Lost';
+            return 'No';
         }
     } else {
         // Dire
         if (winner(result) == 'Dire') {
-            return 'Won';
+            return 'Yes';
         } else {
-            return 'Lost';
+            return 'No';
         }
     }
 }
@@ -195,6 +196,7 @@ function lookupid(id) {
     }
     return id;
 }
+
 
 // Calculates the ranks
 function rankcalc(rank_tier) {
@@ -231,18 +233,56 @@ function rankcalc(rank_tier) {
     return result;
 }
 
+
+
+
 // Finds which gamemode
 function gamemode(game_mode) {
-    if (game_mode == 4) {
-        return 'Low-prio';
-    } else if (game_mode == 23) {
-        return 'Turbo'; 
+    if (game_mode == 1) {
+        return 'All Pick';
     } else if (game_mode == 22) {
-        return 'Normal';
+        return 'Ranked All Pick'; 
+    } else if (game_mode == 3) {
+        return 'Random Draft';
+    } else if (game_mode == 4) {
+        return 'Single Draft (Low prio)';
+    } else if (game_mode == 5) {
+        return 'All Random';
+    } else if (game_mode == 7) {
+        return 'Diretide';
+    } else if (game_mode == 8) {
+        return 'Reverse Captains Mode';
+    } else if (game_mode == 9) {
+        return 'Greeviling';
+    } else if (game_mode == 10) {
+        return 'Tutorial';
+    } else if (game_mode == 11) {
+        return 'Mid Only';
+    } else if (game_mode == 12) {
+        return 'Least Played';
+    } else if (game_mode == 13) {
+        return 'New Player Pool';
+    } else if (game_mode == 14) {
+        return 'Compendium Matchmaking';
+    } else if (game_mode == 15) {
+        return 'Custom';
+    } else if (game_mode == 16) {
+        return 'Captains Draft';
+    } else if (game_mode == 17) {
+        return 'Balanced Draft';
+    } else if (game_mode == 18) {
+        return 'Ability Draft';
+    } else if (game_mode == 20) {
+        return 'All Random Deathmatch';
+    } else if (game_mode == 21) {
+        return 'Solo Mid 1v1';
+    } else if (game_mode == 2) {
+        return 'Captains Mode';
     } else {
         return 'Unknown';
     }
 }
+
 
 client.on('ready', () => {
     console.log('dotabot loaded');
