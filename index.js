@@ -104,7 +104,7 @@ function lastmatchcommand(input, message) {
                         }
                     }
                     message.channel.send('https://www.dotabuff.com/matches/' + data[0].match_id);
-                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + '\nWon: ' + winnerlastmatch(data[0].radiant_win, data[0].player_slot) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
+                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + '\nResult: ' + winnerlastmatch(data[0].radiant_win, data[0].player_slot) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
                 }); 
             }
         }); 
@@ -172,16 +172,16 @@ function winnerlastmatch(result, playerslot) {
     if (((playerslot >> 7) & 1) === 0) {
         // Raidant 
         if (winner(result) == 'Radiant') {
-            return 'Yes';
+            return 'Won';
         } else {
-            return 'No';
+            return 'Lost';
         }
     } else {
         // Dire
         if (winner(result) == 'Dire') {
-            return 'Yes';
+            return 'Won';
         } else {
-            return 'No';
+            return 'Lost';
         }
     }
 }
