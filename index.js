@@ -153,11 +153,11 @@ function matchcommand(input, message, herodataJSON) {
 // !delete command, removes messages from server
 function deletecommand(input, message) {
     if (message.content.startsWith('!delete')) {
-        message.channel.fetchMessages({limit: 10}).then(messages => {
+        message.channel.fetchMessages({limit: 15}).then(messages => {
             const botMessages = messages.filter(msg => msg.author.bot);
             message.channel.bulkDelete(botMessages);
             messagesDeleted = botMessages.array().length;
-            message.content.delete();
+            message.delete();
         });
     }
 }
