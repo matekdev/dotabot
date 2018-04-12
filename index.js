@@ -3,14 +3,13 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 var request = require('request');
 // All channels within the discord
-var channel = client.channels.get('348698341242306560');
+// var channel = client.channels.get('348698341242306560');
 
 // Load in DOTA 2 hero champion data
 var herodataJSON;
 request('https://raw.githubusercontent.com/mzegar/dota2-api/e04b622288427ae6b41f63a0b2d4061eaf1784a1/data/heroes.json', function (error, response, body) {
     herodataJSON = JSON.parse(body);   
 });
-
 
 // Local database due to Discord not supporting API to see who has connected steam accounts.
 // This allows it so commands can be used like... !lastmatch fogell
@@ -151,6 +150,18 @@ function matchcommand(input, message, herodataJSON) {
     }   
 }
 
+// !delete command, removes messages from server
+function deletecommand(input, message) {
+    if (message.content.startsWith('!delete')) {
+        message.channel.fetchMessages({limit: 10}).then(messages => {
+            const botMessages = messages.filter(msg => msg.author.bot);
+            message.channel.bulkDelete(botMessages);
+            messagesDeleted = botMessages.array().length;
+            message.content.delete();
+        });
+    }
+}
+
 // Finds the proper hero_id
 function heroid(id, herodataJSON) {
     for (i = 0; i < herodataJSON.heroes.length; ++i) {
@@ -244,8 +255,6 @@ function gamemode(game_mode) {
         return 'Ranked All Pick'; 
     } else if (game_mode == 3) {
         return 'Random Draft';
-    } else if (game_mode == 23) {
-	return 'Turbo';
     } else if (game_mode == 4) {
         return 'Single Draft (Low prio)';
     } else if (game_mode == 5) {
@@ -302,8 +311,10 @@ client.on('ready', () => {
     databasecommand(input, message);
     matchescommand(input, message);
     matchcommand(input, message, herodataJSON);
+    deletecommand(input, message);
 
   });
+
 
 // Heroku login
 client.login(process.env.BOT_TOKEN);
