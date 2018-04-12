@@ -2,11 +2,14 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var request = require('request');
+// All channels within the discord
 var channel = client.channels.get('348698341242306560');
 
 // Load in DOTA 2 hero champion data
-var herodataJSON = JSON.parse(herodata.json);
-
+var herodataJSON;
+request('https://raw.githubusercontent.com/mzegar/dota2-api/e04b622288427ae6b41f63a0b2d4061eaf1784a1/data/heroes.json', function (error, response, body) {
+    herodataJSON = JSON.parse(body);   
+});
 
 // Local database due to Discord not supporting API to see who has connected steam accounts.
 // This allows it so commands can be used like... !lastmatch fogell
@@ -26,6 +29,7 @@ var database = [
     ['gar', '94210317'],
     ['jimson', '34483138']
 ];
+
 
 function appendURL(url1, id, url2) {
     return url1.concat(id, url2);
