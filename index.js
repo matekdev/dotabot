@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 var request = require('request');
 // All channels within the discord
-// var channel = client.channels.get('348698341242306560');
+var channel = client.channels.get('348698341242306560');
 
 // Load in DOTA 2 hero champion data
 var herodataJSON;
@@ -104,7 +104,7 @@ function lastmatchcommand(input, message) {
                         }
                     }
                     message.channel.send('https://www.dotabuff.com/matches/' + data[0].match_id);
-                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + '\nResult: ' + winnerlastmatch(data[0].radiant_win, data[0].player_slot) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
+                    message.channel.send('```\nGamemode: ' + gamemode(data[0].game_mode) + '\nWon: ' + winnerlastmatch(data[0].radiant_win, data[0].player_slot) + '\nHero: ' + hero + '\nDuration: ' + Math.round(data[0].duration/60) + ' mins' + '\nLast hits: ' + data[0].last_hits + '\nKills: ' + data[0].kills + '\nAssists: ' + data[0].assists  + '\nDeaths: ' + data[0].deaths + '\nGPM: ' + data[0].gold_per_min + '\nXPM: ' + data[0].xp_per_min + '\nTower damage: ' + data[0].tower_damage + '```');
                 }); 
             }
         }); 
@@ -150,16 +150,21 @@ function matchcommand(input, message, herodataJSON) {
     }   
 }
 
-// !delete command, removes messages from server
-function deletecommand(input, message) {
-    if (message.content.startsWith('!delete')) {
-        message.channel.fetchMessages({limit: 15}).then(messages => {
-            const botMessages = messages.filter(msg => msg.author.bot);
-            message.channel.bulkDelete(botMessages);
-            messagesDeleted = botMessages.array().length;
-            message.delete();
-        });
-    }
+function prizecommand(input, message) {
+    if (message.content.startsWith('!prize')) {
+        let id = lookupid(input.substring(7, (input.length)));
+        let url = "http://dota2.prizetrac.kr/international2018";
+
+        request(url, function (error, response, body) {
+            let data = body;
+            if (typeof data != "html") {
+                message.channel.send("```The International 2018 prize pool is at " + prizeparse(data) + "```");
+            } else {   
+                console.log(data);
+                message.channel.send("```Error obtaining website data...```");
+            }
+        }); 
+    }       
 }
 
 // Finds the proper hero_id
@@ -184,16 +189,16 @@ function winnerlastmatch(result, playerslot) {
     if (((playerslot >> 7) & 1) === 0) {
         // Raidant 
         if (winner(result) == 'Radiant') {
-            return 'Won';
+            return 'Yes';
         } else {
-            return 'Lost';
+            return 'No';
         }
     } else {
         // Dire
         if (winner(result) == 'Dire') {
-            return 'Won';
+            return 'Yes';
         } else {
-            return 'Lost';
+            return 'No';
         }
     }
 }
@@ -294,6 +299,21 @@ function gamemode(game_mode) {
     }
 }
 
+function prizeparse(data) {
+    let index = data.indexOf('green header') + 14;
+    let index2 = -1;
+    let string = data.substring(index, index+40);
+    
+    for (let i = 0; i < 40; ++i) {
+        if (string[i] == '<') {
+            index2 = i;
+            break;
+        }
+    }
+    
+    return string.substring(0, index2);
+}
+
 
 client.on('ready', () => {
     console.log('dotabot loaded');
@@ -311,10 +331,11 @@ client.on('ready', () => {
     databasecommand(input, message);
     matchescommand(input, message);
     matchcommand(input, message, herodataJSON);
-    deletecommand(input, message);
+    prizecommand(input, message);
 
   });
 
+  process.on('unhandledRejection', console.error);
 
 // Heroku login
 client.login(process.env.BOT_TOKEN);
