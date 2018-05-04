@@ -15,6 +15,8 @@ A discord bot that gathers API information using https://docs.opendota.com/ for 
 
 !prize - displays current 2018 TI prizepool
 
+!delete - deletes previous bot messages
+
 ![alt text](https://raw.githubusercontent.com/mzegar/dotabot/master/examples%20of%20commanduse/!help.png)
 
 
