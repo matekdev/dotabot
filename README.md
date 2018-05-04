@@ -13,6 +13,8 @@ A discord bot that gathers API information using https://docs.opendota.com/ for 
 
 !match {matchid} - displays match information
 
+!prize - displays current 2018 TI prizepool
+
 ![alt text](https://raw.githubusercontent.com/mzegar/dotabot/master/examples%20of%20commanduse/!help.png)
 
 
