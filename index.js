@@ -175,6 +175,7 @@ function prizecommand(input, message) {
 			message.channel.send("```Error fetching data...```");
 		} else {
 			message.channel.send("```The International 2018 prize pool is at " + prizeparse(data) + "```");
+			message.channel.send("/tts prizeparse(data)");
 		}
             } else {   
                 console.log(data);
