@@ -171,7 +171,11 @@ function prizecommand(input, message) {
         request(url, function (error, response, body) {
             let data = body;
             if (typeof data != "html") {
-                message.channel.send("```The International 2018 prize pool is at " + prizeparse(data) + "```");
+		if (prizeparse(data) == '$0') {
+			message.channel.send("```Error fetching data...```");
+		} else {
+			message.channel.send("```The International 2018 prize pool is at " + prizeparse(data) + "```");
+		}
             } else {   
                 console.log(data);
                 message.channel.send("```Error obtaining website data...```");
