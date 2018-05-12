@@ -312,8 +312,10 @@ function gamemode(game_mode) {
         return 'Solo Mid 1v1';
     } else if (game_mode == 2) {
         return 'Captains Mode';
+    } else if (game_mode == 24) {
+        return 'Mutation';
     } else {
-        return 'Unknown';
+	return 'Unkown';    
     }
 }
 
