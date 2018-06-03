@@ -28,10 +28,9 @@ var database = [
     ['jonko', '89100568'],
     ['ryan', '569142'],
     ['gar', '94210317'],
-    ['jimson', '34483138'],
-    ['troy', '381804788],
-    ['evanalt', '247836247'] 
+    ['jimson', '34483138']
 ];
+
 
 function appendURL(url1, id, url2) {
     return url1.concat(id, url2);
