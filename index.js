@@ -363,7 +363,7 @@ client.on('ready', () => {
     matchcommand(input, message, herodataJSON);
     deletecommand(input, message);
     prizecommand(input, message);
-    noah(input, message;
+    noah(input, message);
 
   });
 
