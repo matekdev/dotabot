@@ -207,6 +207,12 @@ function winner(result) {
     }
 }
 
+function noah(input, message) {
+	if (message.author.id == 206479386340229121) {
+		message.channel.send("Go back to your corner, Noah.");	
+	}
+}
+
 function winnerlastmatch(result, playerslot) {
     if (((playerslot >> 7) & 1) === 0) {
         // Raidant 
@@ -357,6 +363,7 @@ client.on('ready', () => {
     matchcommand(input, message, herodataJSON);
     deletecommand(input, message);
     prizecommand(input, message);
+    noah(input, message;
 
   });
 
