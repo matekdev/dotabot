@@ -208,7 +208,7 @@ function winner(result) {
 }
 
 function noah(input, message) {
-	if (message.author.id == 206479386340229121) {
+	if (message.author.username == "Noah") {
 		message.channel.send("Go back to your corner, Noah.");	
 	}
 }
