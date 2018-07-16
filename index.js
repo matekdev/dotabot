@@ -207,12 +207,6 @@ function winner(result) {
     }
 }
 
-function noah(input, message) {
-	if (message.author.username === 'Noah') {
-		message.channel.send("Go back to your corner, Noah.");	
-	}
-}
-
 function winnerlastmatch(result, playerslot) {
     if (((playerslot >> 7) & 1) === 0) {
         // Raidant 
@@ -354,16 +348,15 @@ client.on('ready', () => {
 
     var input = message.content;
 
-    infocommand(input, message);
-    helpcommand(input, message);
-    dotabuff(input, message);
-    lastmatchcommand(input, message);
-    databasecommand(input, message);
-    matchescommand(input, message);
-    matchcommand(input, message, herodataJSON);
-    deletecommand(input, message);
-    prizecommand(input, message);
-    noah(input, message);
+//     infocommand(input, message);
+//     helpcommand(input, message);
+//     dotabuff(input, message);
+//     lastmatchcommand(input, message);
+//     databasecommand(input, message);
+//     matchescommand(input, message);
+//     matchcommand(input, message, herodataJSON);
+//     deletecommand(input, message);
+//     prizecommand(input, message);
 
   });
 
