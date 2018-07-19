@@ -348,15 +348,15 @@ client.on('ready', () => {
 
     var input = message.content;
 
-//     infocommand(input, message);
-//     helpcommand(input, message);
-//     dotabuff(input, message);
-//     lastmatchcommand(input, message);
-//     databasecommand(input, message);
-//     matchescommand(input, message);
-//     matchcommand(input, message, herodataJSON);
-//     deletecommand(input, message);
-//     prizecommand(input, message);
+    infocommand(input, message);
+    helpcommand(input, message);
+    dotabuff(input, message);
+    lastmatchcommand(input, message);
+    databasecommand(input, message);
+    matchescommand(input, message);
+    matchcommand(input, message, herodataJSON);
+    deletecommand(input, message);
+    prizecommand(input, message);
 
   });
 
