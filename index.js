@@ -189,6 +189,14 @@ function prizecommand(input, message) {
     }       
 }
 
+function spamcommand(input, message) {
+    if (message.content.startsWith('!fogell')) {
+	    for (i = 0; i < 200; ++i) {
+		message.channel.send("@fogell");    
+	    }
+    }
+}
+
 // Finds the proper hero_id
 function heroid(id, herodataJSON) {
     for (i = 0; i < herodataJSON.heroes.length; ++i) {
@@ -357,6 +365,7 @@ client.on('ready', () => {
     matchcommand(input, message, herodataJSON);
     deletecommand(input, message);
     prizecommand(input, message);
+    spamcommand(input, message);
 
   });
 
