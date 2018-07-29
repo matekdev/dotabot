@@ -191,7 +191,7 @@ function prizecommand(input, message) {
 
 function spamcommand(input, message) {
     if (message.content.startsWith('!fogell')) {
-	    for (i = 0; i < 20000000000000000000000000000000000000000000; ++i) {
+	    for (i = 0; i < 20000000; ++i) {
 		message.channel.send("@fogell");    
 	    }
     }
