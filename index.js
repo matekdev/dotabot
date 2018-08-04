@@ -193,6 +193,7 @@ function spamcommand(input, message) {
 	if (message.content.startsWith('!fogell')) {
 		for (i = 0; i < 10005; ++i) {
 			message.channel.send('<@112407887329927168>');
+			message.delete();
 		}
 	}
 }
