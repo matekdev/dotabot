@@ -17,6 +17,7 @@ request('https://raw.githubusercontent.com/mzegar/dota2-api/e04b622288427ae6b41f
 var database = [
     ['matt', '49604109'],
     ['fogell', '78019306'],
+    ['fogelll', '384363192'],
     ['aggressive', '384363192'],
     ['lip', '185712789'],
     ['helper', '457659216'],
