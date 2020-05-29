@@ -1,15 +1,23 @@
 {
-  "name": "discordbot",
+  "name": "awaybot",
   "version": "1.0.0",
-  "description": "",
+  "description": "A bot that tracks how long a person has gone for",
   "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mzegar/away-bot"
+  },
+  "author": "Matt",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.3.0",
-    "request": "^2.83.0"
+    "discord.js": "^12.1.1",
+    "dotenv": "^8.2.0",
+    "env": "0.0.2",
+    "fs": "0.0.1-security",
+    "request": "^2.88.2"
   }
 }

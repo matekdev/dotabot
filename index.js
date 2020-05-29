@@ -1,9 +1,10 @@
 // Include .JS files, setup discord.js settings
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const {Client} = require("discord.js");
+const client = new Client({
+    disableEveryone: true
+});
+require('dotenv').config();
 var request = require('request');
-// All channels within the discord
-// var channel = client.channels.get('348698341242306560');
 
 // Load in DOTA 2 hero champion data
 var herodataJSON;
@@ -11,9 +12,9 @@ request('https://raw.githubusercontent.com/mzegar/dota2-api/e04b622288427ae6b41f
     herodataJSON = JSON.parse(body);   
 });
 
-// Local database due to Discord not supporting API to see who has connected steam accounts.
-// This allows it so commands can be used like... !lastmatch fogell
-// Instead of using their DOTA ID any custom string will work
+// // Local database due to Discord not supporting API to see who has connected steam accounts.
+// // This allows it so commands can be used like... !lastmatch fogell
+// // Instead of using their DOTA ID any custom string will work
 var database = [
     ['matt', '49604109'],
     ['fogell', '78019306'],
@@ -172,7 +173,7 @@ function deletecommand(input, message) {
 function prizecommand(input, message) {
     if (message.content.startsWith('!prize')) {
         let id = lookupid(input.substring(7, (input.length)));
-        let url = "http://dota2.prizetrac.kr/international2018";
+        let url = "http://dota2.prizetrac.kr/international10";
 
         request(url, function (error, response, body) {
             let data = body;
@@ -180,7 +181,7 @@ function prizecommand(input, message) {
 		if (prizeparse(data) == '$0') {
 			message.channel.send("```Error fetching data...```");
 		} else {
-			message.channel.send("```The International 2018 prize pool is at " + prizeparse(data) + "```");
+			message.channel.send("```The International 10 prize pool is at " + prizeparse(data) + "```");
 		}
             } else {   
                 console.log(data);
@@ -277,6 +278,7 @@ function rankcalc(rank_tier) {
 
 // Finds which gamemode
 function gamemode(game_mode) {
+    console.log(game_mode);
     if (game_mode == 1) {
         return 'All Pick';
     } else if (game_mode == 22) {
@@ -319,8 +321,10 @@ function gamemode(game_mode) {
         return 'Captains Mode';
     } else if (game_mode == 24) {
         return 'Mutation';
+    } else if (game_mode == 23) {
+        return 'Turbo';
     } else {
-	return 'Unkown';    
+	    return 'Unknown';    
     }
 }
 
@@ -339,14 +343,11 @@ function prizeparse(data) {
     return string.substring(0, index2);
 }
 
+client.on("ready", () => {
+    console.log("Launching bot");
+});
 
-client.on('ready', () => {
-    console.log('dotabot loaded');
-    client.user.setActivity('DOTA 2');
-  });
-  
-  client.on('message', message => {
-
+client.on("message", async message => {
     var input = message.content;
 
     infocommand(input, message);
@@ -356,11 +357,9 @@ client.on('ready', () => {
     databasecommand(input, message);
     matchescommand(input, message);
     matchcommand(input, message, herodataJSON);
-    deletecommand(input, message);
     prizecommand(input, message);
-    spamcommand(input, message);
+});
 
-  });
 
 
 // Heroku login
