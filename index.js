@@ -176,16 +176,18 @@ function wordcommand(input, message) {
                 const dataMap = new Map(Object.entries(data.my_word_counts));
                 const sortedMap = new Map([...dataMap.entries()].sort((a, b) => b[1] - a[1]));
     
-                let formattedResponse = '```\n';
-                formattedResponse += 'Count: Word\n';
-                for (let i = 0; i < loopCounter; ++i) {
-                    formattedResponse += [...sortedMap][i][1];
-                    formattedResponse += ": ";
-                    formattedResponse += [...sortedMap][i][0];
-                    formattedResponse += '\n';
+                if (loopCounter <= 51) {
+                    let formattedResponse = '```\n';
+                    formattedResponse += 'Count: Word\n';
+                    for (let i = 0; i < loopCounter; ++i) {
+                        formattedResponse += [...sortedMap][i][1];
+                        formattedResponse += ": ";
+                        formattedResponse += [...sortedMap][i][0];
+                        formattedResponse += '\n';
+                    }
+                    formattedResponse += '```';
+                    message.channel.send(formattedResponse);
                 }
-                formattedResponse += '```';
-                message.channel.send(formattedResponse);
             }
         }); 
     }
