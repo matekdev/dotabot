@@ -33,7 +33,8 @@ var database = [
     ['ricky', '413932517'],
     ['troy', '381804788'],
     ['gar', '94210317'],
-    ['jimson', '34483138']
+    ['jimson', '34483138'],
+    ['noah', '230218374']
 ];
 
 
@@ -155,6 +156,39 @@ function matchcommand(input, message, herodataJSON) {
             }
         }); 
     }   
+}
+
+// !word command
+function wordcommand(input, message) {
+    if (message.content.startsWith('!words ')) {
+        var res = input.split(" ");
+        let id = lookupid(res[1]);
+        let url = "https://api.opendota.com/api/players/";
+        let finalurl = url.concat(id, '/wordcloud');   
+
+        let loopCounter = parseInt(res[2]);
+
+        request(finalurl, function (error, response, body) {
+            let data = JSON.parse(body);
+            if (data.error == 'Internal Server Error' || typeof data.my_word_counts == 'undefined' || isNaN(loopCounter)) {
+                message.channel.send('Error, invalid ID');
+            } else {
+                const dataMap = new Map(Object.entries(data.my_word_counts));
+                const sortedMap = new Map([...dataMap.entries()].sort((a, b) => b[1] - a[1]));
+    
+                let formattedResponse = '```\n';
+                formattedResponse += 'Count: Word\n';
+                for (let i = 0; i < loopCounter; ++i) {
+                    formattedResponse += [...sortedMap][i][1];
+                    formattedResponse += ": ";
+                    formattedResponse += [...sortedMap][i][0];
+                    formattedResponse += '\n';
+                }
+                formattedResponse += '```';
+                message.channel.send(formattedResponse);
+            }
+        }); 
+    }
 }
 
 // !delete command, removes messages from server
@@ -356,6 +390,7 @@ client.on("message", async message => {
     lastmatchcommand(input, message);
     databasecommand(input, message);
     matchescommand(input, message);
+    wordcommand(input, message);
     matchcommand(input, message, herodataJSON);
     prizecommand(input, message);
 });
