@@ -5,17 +5,11 @@ A discord bot that gathers API information using https://docs.opendota.com/ for 
 
 !info {id} - displays info about the dota player 
   
-!database - shows which names are present within the database 
-  
 !lastmatch {id} - displays info about the last match the user played 
   
 !matches {id} - displays info about all the matches the user has played 
 
-!match {matchid} - displays match information
-
 !prize - displays current 2018 TI prizepool
-
-!delete - deletes previous bot messages
 
 ![alt text](https://raw.githubusercontent.com/mzegar/dotabot/master/examples%20of%20commanduse/!help.png)
 
